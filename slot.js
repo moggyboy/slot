@@ -6,42 +6,33 @@
 * You may obtain a copy of the License at
 * http://creativecommons.org/licenses/by-sa/3.0/
 *
-* Date: May 23, 2011 
+* Date: May 23, 2011
 */
 $(document).ready(function() {
     /**
     * Global variables
     */
     var completed = 0,
-        imgHeight = 1374,
+        imgHeight = 1542,
         posArr = [
-            0, //orange
-            80, //number 7 
-            165, //bar
-            237, //guava
-            310, //banana
-            378, //cherry
-            454, //orange
-            539, //number 7
-            624, //bar
-            696, //guava
-            769, //banana
-            837, //cherry
-            913, //orange
-            1000, //number 7
-            1085, //bar
-            1157, //guava
-            1230, //banana
-            1298 //cherry
+            -8, // C++
+            110,
+            210,
+            310,
+            385,
+            460,
+            530,
+            610,
+            685,
+            760,
+            835, // C
+            935, // C#
+            1035, // Haskell
+            1135, // Javascript
+            1235, // Java
+            1335, // Ruby
+            1430 // Python
         ];
-    
-    var win = [];
-    win[0] = win[454] = win[913] = 1;
-    win[80] = win[539] = win[1000] = 2;
-    win[165] = win[624] = win[1085] = 3;
-    win[237] = win[696] = win[1157] = 4;
-    win[310] = win[769] = win[1230] = 5;
-    win[378] = win[837] = win[1298] = 6;
 
     /**
     * @class Slot
@@ -53,7 +44,7 @@ $(document).ready(function() {
         this.si = null; //holds setInterval object for the given slot
         this.el = el; //dom element of the slot
         this.maxSpeed = max; //max speed this slot can have
-        this.pos = null; //final position of the slot    
+        this.pos = null; //final position of the slot
 
         $(el).pan({
             fps:30,
@@ -137,7 +128,7 @@ $(document).ready(function() {
             }
         }
 
-        best += imgHeight + 4;
+        best += imgHeight;
         bgPos = "0 " + best + "px";
         $(el).animate({
             backgroundPosition:"(" + bgPos + ")"
@@ -148,7 +139,7 @@ $(document).ready(function() {
             }
         });
     };
-    
+
     /**
     * @method reset
     * Reset a slot to initial state
@@ -156,7 +147,7 @@ $(document).ready(function() {
     Slot.prototype.reset = function() {
         var el_id = $(this.el).attr('id');
         $._spritely.instances[el_id].t = 0;
-        $(this.el).css('background-position', '0px 4px');
+        $(this.el).css('background-position', '0px -8px');
         this.speed = 0;
         completed = 0;
         $('#result').html('');
@@ -172,52 +163,42 @@ $(document).ready(function() {
 
     function printResult() {
         var res;
-        if(win[a.pos] === win[b.pos] && win[a.pos] === win[c.pos]) {
-            res = "You Win!";
-        } else {
-            res = "You Lose";
-        }
-        $('#result').html(res);
+        $('#result').html("Good luck!");
     }
 
     //create slot objects
-    var a = new Slot('#slot1', 30, 1),
-        b = new Slot('#slot2', 45, 2),
-        c = new Slot('#slot3', 70, 3);
+    var a = new Slot('#slot1', 70, 3);
 
     /**
     * Slot machine controller
     */
     $('#control').click(function() {
         var x;
-        if(this.innerHTML == "Start") {
+        if(this.innerHTML == "Start" || this.innerHTML == "Oh lordy no. Anything but that!") {
+            $('#result').html("Prepare for the pain...");
             a.start();
-            b.start();
-            c.start();
             this.innerHTML = "Stop";
-            
+
             disableControl(); //disable control until the slots reach max speed
-            
-            //check every 100ms if slots have reached max speed 
+
+            //check every 100ms if slots have reached max speed
             //if so, enable the control
             x = window.setInterval(function() {
-                if(a.speed >= a.maxSpeed && b.speed >= b.maxSpeed && c.speed >= c.maxSpeed) {
+                if(a.speed >= a.maxSpeed) {
                     enableControl();
                     window.clearInterval(x);
                 }
             }, 100);
         } else if(this.innerHTML == "Stop") {
             a.stop();
-            b.stop();
-            c.stop();
-            this.innerHTML = "Reset";
+            this.innerHTML = "Oh lordy no. Anything but that!";
 
             disableControl(); //disable control until the slots stop
-            
+
             //check every 100ms if slots have stopped
             //if so, enable the control
             x = window.setInterval(function() {
-                if(a.speed === 0 && b.speed === 0 && c.speed === 0 && completed === 3) {
+                if(a.speed === 0 && completed === 1) {
                     enableControl();
                     window.clearInterval(x);
                     printResult();
@@ -225,8 +206,6 @@ $(document).ready(function() {
             }, 100);
         } else { //reset
             a.reset();
-            b.reset();
-            c.reset();
             this.innerHTML = "Start";
         }
     });
