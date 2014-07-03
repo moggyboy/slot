@@ -1,3 +1,4 @@
-A javascript implementation of Slot Machine using jQuery
+A page for randomly selecting a language for your next programming exercise.
 
-For more details, see http://odhyan.com/blog/2011/05/slot-machine-in-javascript/
+Languages taken from here:
+http://blog.codeeval.com/codeevalblog/2014
