@@ -1,6 +1,7 @@
 /**
 * Slot machine
-* Author: Saurabh Odhyan | http://odhyan.com
+* Original Author: Saurabh Odhyan | http://odhyan.com
+* Modified By: Michael Webb
 *
 * Licensed under the Creative Commons Attribution-ShareAlike License, Version 3.0 (the "License")
 * You may obtain a copy of the License at
@@ -135,7 +136,7 @@ $(document).ready(function() {
         }, {
             duration: 200,
             complete: function() {
-                completed ++;
+                completed = 1;
             }
         });
     };
@@ -209,4 +210,6 @@ $(document).ready(function() {
             this.innerHTML = "Start";
         }
     });
+
+    $(document).ready(function() { $('#control').click(); });
 });
