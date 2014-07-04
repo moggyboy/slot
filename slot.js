@@ -211,5 +211,8 @@ $(document).ready(function() {
         }
     });
 
-    $(document).ready(function() { $('#control').click(); });
+    $(document).ready(function() {
+        $("#control").html("Start");
+        $('#control').click();
+    });
 });
